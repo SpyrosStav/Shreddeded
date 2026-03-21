@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./be
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./be:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - db
+
+  frontend:
+    build: ./fe
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./fe:/app
+    stdin_open: true
+
+  db:
+    image: postgres:15
+    container_name: app_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  liquibase:
+    image: liquibase/liquibase
+    depends_on:
+      - db
+    volumes:
+      - ./liquibase:/liquibase/changelog
+    command:
+      [
+        "--url=jdbc:postgresql://db:5432/mydb",
+        "--changeLogFile=db.changelog.xml",
+        "--username=user",
+        "--password=password",
+        "update"
+      ]
+
+volumes:
+  db_data:
