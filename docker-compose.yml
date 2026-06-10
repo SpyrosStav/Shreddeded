@@ -2,49 +2,51 @@ version: "3.9"
 
 services:
   backend:
-    build: ./be
+    build: ./backend
     ports:
       - "3000:3000"
     volumes:
-      - ./be:/app
+      - ./backend:/app
     environment:
       - NODE_ENV=development
     depends_on:
       - db
 
   frontend:
-    build: ./fe
+    build: ./frontend
     ports:
       - "5173:5173"
     volumes:
-      - ./fe:/app
+      - ./frontend:/app
     stdin_open: true
 
   db:
-    image: postgres:15
-    container_name: app_db
+    image: postgres:16
+    container_name: shreddeded_db
     restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+      POSTGRES_DB: shreddeded_db
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 
   liquibase:
-    image: liquibase/liquibase
+    image: liquibase/liquibase:latest
     depends_on:
       - db
     volumes:
-      - ./liquibase:/liquibase/changelog
+      - ./db-migration/liquibase/changelogs:/liquibase/changelog
+      - ./db-migration/liquibase/drivers:/liquibase/drivers
     command:
       [
-        "--url=jdbc:postgresql://db:5432/mydb",
-        "--changeLogFile=db.changelog.xml",
+        "--url=jdbc:postgresql://db:5432/shreddeded_db",
+        "--changeLogFile=db.changelog-master.xml",
         "--username=user",
         "--password=password",
+        "--classpath=/liquibase/drivers/postgresql-42.7.10.jar",
         "update"
       ]
 

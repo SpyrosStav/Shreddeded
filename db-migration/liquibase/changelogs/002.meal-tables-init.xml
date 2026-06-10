@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <!-- Create Food table -->
+    <changeSet id="001" author="dev">
+        <createTable tableName="food">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="calories" type="NUMERIC(4,0)" />
+            <column name="protein" type="NUMERIC(5,2)" />
+            <column name="carbs" type="NUMERIC(5,2)" />
+            <column name="fat" type="NUMERIC(5,2)" />
+            <column name="fiber" type="NUMERIC(5,2)" />
+            <column name="user_id" type="UUID" />
+        </createTable>
+
+        <!-- Add FK -->
+        <addForeignKeyConstraint
+            baseTableName="food" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_food_users"
+            onDelete="CASCADE"
+        />
+    </changeSet>
+
+    <!-- Create Meal Log table -->
+    <changeSet id="002" author="dev">
+        <createTable tableName="meal_log">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="UUID" />
+            <column name="meal_date" type="DATETIME" />
+            <column name="meal_type" type="VARCHAR(20)" />
+        </createTable>
+
+        <!-- Add FK -->
+        <addForeignKeyConstraint
+            baseTableName="meal_log" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_meal_log_users"
+            onDelete="CASCADE"
+        />
+    </changeSet>
+
+    <!-- Create Meal Item table -->
+    <changeSet id="003" author="dev">
+        <createTable tableName="meal_item">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="meal_log_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="food_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="quantity" type="INTEGER"></column>
+            <column name="quantity_unit" type="VARCHAR(20)"></column>
+            <column name="calories" type="NUMERIC(6,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="protein" type="NUMERIC(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="carbs" type="NUMERIC(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="fat" type="NUMERIC(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="fiber" type="NUMERIC(6,2)" />
+        </createTable>
+
+        <!-- Add FK -->
+        <addForeignKeyConstraint
+            baseTableName="meal_item" baseColumnNames="meal_log_id"
+            referencedTableName="meal_log" referencedColumnNames="id"
+            constraintName="fk_meal_item_meal_log"
+            onDelete="CASCADE"
+        />
+
+        <!-- Add FK -->
+        <addForeignKeyConstraint
+            baseTableName="meal_item" baseColumnNames="food_id"
+            referencedTableName="food" referencedColumnNames="id"
+            constraintName="fk_meal_item_food_id"
+            onDelete="CASCADE"
+        />
+    </changeSet>
+
+    <!-- Create Nutrition Goal table -->
+    <changeSet id="004" author="dev">
+        <createTable tableName="nutrition_goal">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_date" type="DATE" />
+            <column name="end_date" type="DATE" />
+            <column name="calories_target" type="INTEGER"></column>
+            <column name="protein_target" type="INTEGER"></column>
+            <column name="carbs_target" type="INTEGER"></column>
+            <column name="fat_target" type="INTEGER"></column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="nutrition_goal" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_nutrition_goal_users"
+            onDelete="CASCADE"
+        />
+    </changeSet>
+
+</databaseChangeLog>

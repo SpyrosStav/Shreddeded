@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <!-- Create Users table -->
+    <changeSet id="001" author="dev">
+        <createTable tableName="users">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="password" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="first_name" type="VARCHAR(100)" />
+            <column name="last_name" type="VARCHAR(100)" />
+            <column name="date_of_birth" type="DATE" />
+            <column name="sex" type="VARCHAR(6)" />
+            <column name="height_cm" type="NUMERIC(5,2)" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+        </createTable>
+
+        <!-- Add Index -->
+        <createIndex tableName="users" indexName="idx_users_email">
+            <column name="email"></column>
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Weight Log Table -->
+    <changeSet id="002" author="dev">
+        <createTable tableName="weight_log">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="weight" type="NUMERIC(5,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="logged_on" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <!-- Add FK -->
+        <addForeignKeyConstraint
+            baseTableName="weight_log" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_weight_log_users"
+            onDelete="CASCADE"
+        />
+
+        <!-- Add Index -->
+        <createIndex tableName="weight_log" indexName="idx_weight_log_user_date">
+            <column name="user_id" />
+            <column name="logged_on" />
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Codelist Tables -->
+    <changeSet id="003" author="dev">
+        <!-- Codelist Table -->
+        <createTable tableName="codelist">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="code" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="description" type="TEXT" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createIndex tableName="codelist" indexName="idx_codelist_code">
+            <column name="code" />
+        </createIndex>
+
+        <!-- Codelist Items Table -->
+        <createTable tableName="codelist_items">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="codelist_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="code" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="label" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="TEXT" />
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="codelist_item"
+            baseColumnNames="codelist_id"
+            referencedTableName="codelist"
+            referencedColumnNames="id"
+            constraintName="fk_codelist_item_codelist"
+            onDelete="CASCADE"
+        />
+
+        <addUniqueConstraint
+            tableName="codelist_item"
+            columnNames="codelist_id, code"
+            constraintName="uq_codelist_item_codelist_code"
+        />
+    </changeSet>
+
+</databaseChangeLog>

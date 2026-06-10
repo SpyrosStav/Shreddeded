@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <!-- Create Exercise table -->
+    <changeSet id="001" author="dev">
+        <createTable tableName="exercise">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="UUID" />
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <!-- <column name="primary_muscle_group" type="VARCHAR(50)" /> -->
+            <!-- <column name="equipment" type="VARCHAR(50)" /> -->
+            <!-- <column name="movement_pattern" type="VARCHAR(50)" /> -->
+            <column name="is_custom" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="exercise" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_exercise_users"
+            onDelete="CASCADE"
+        />
+
+        <createIndex tableName="exercise" indexName="idx_exercise_name">
+            <column name="name" />
+        </createIndex>
+
+        <createIndex tableName="exercise" indexName="idx_exercise_user">
+            <column name="user_id" />
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Workout Session table -->
+    <changeSet id="002" author="dev">
+        <createTable tableName="workout_session">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(100)" />
+            <column name="performed_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="duration_minutes" type="INTEGER" />
+            <column name="notes" type="TEXT" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="workout_session" baseColumnNames="user_id"
+            referencedTableName="users" referencedColumnNames="id"
+            constraintName="fk_workout_session_users"
+            onDelete="CASCADE"
+        />
+
+        <createIndex tableName="workout_session" indexName="idx_workout_session_user_performed_at">
+            <column name="user_id" />
+            <column name="performed_at" />
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Workout Exercise table -->
+    <changeSet id="003" author="dev">
+        <createTable tableName="workout_exercise">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="workout_session_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="exercise_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="notes" type="TEXT" />
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="workout_exercise" baseColumnNames="workout_session_id"
+            referencedTableName="workout_session" referencedColumnNames="id"
+            constraintName="fk_workout_exercise_workout_session"
+            onDelete="CASCADE"
+        />
+
+        <addForeignKeyConstraint
+            baseTableName="workout_exercise" baseColumnNames="exercise_id"
+            referencedTableName="exercise" referencedColumnNames="id"
+            constraintName="fk_workout_exercise_exercise"
+            onDelete="RESTRICT"
+        />
+
+        <createIndex tableName="workout_exercise" indexName="idx_workout_exercise_session">
+            <column name="workout_session_id" />
+        </createIndex>
+    </changeSet>
+
+    <!-- Create Workout Set table -->
+    <changeSet id="004" author="dev">
+        <createTable tableName="workout_set">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="workout_exercise_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="set_number" type="INTEGER">
+                <constraints nullable="false" />
+            </column>
+            <column name="set_type" type="VARCHAR(20)" defaultValue="working">
+                <constraints nullable="false" />
+            </column>
+            <column name="weight" type="NUMERIC(6,2)" />
+            <column name="reps" type="INTEGER" />
+            <column name="duration_seconds" type="INTEGER" />
+            <column name="distance_meters" type="NUMERIC(8,2)" />
+            <column name="notes" type="TEXT" />
+        </createTable>
+
+        <addForeignKeyConstraint
+            baseTableName="workout_set" baseColumnNames="workout_exercise_id"
+            referencedTableName="workout_exercise" referencedColumnNames="id"
+            constraintName="fk_workout_set_workout_exercise"
+            onDelete="CASCADE"
+        />
+
+        <addUniqueConstraint
+            tableName="workout_set"
+            columnNames="workout_exercise_id, set_number"
+            constraintName="uq_workout_set_exercise_set_number"
+        />
+
+        <createIndex tableName="workout_set" indexName="idx_workout_set_workout_exercise">
+            <column name="workout_exercise_id" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
