@@ -1,3 +1,4 @@
 backend/.env
 frontend/node_modules/
 backend/node_modules/
+db-migration/liquibase/drivers/postgresql-42.7.10.jar
