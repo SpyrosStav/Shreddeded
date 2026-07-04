@@ -28,6 +28,10 @@
             constraintName="fk_food_users"
             onDelete="CASCADE"
         />
+
+        <createIndex tableName="food" indexName="idx_food_user_id">
+            <column name="user_id" />
+        </createIndex>
     </changeSet>
 
     <!-- Create Meal Log table -->
@@ -36,7 +40,9 @@
             <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="user_id" type="UUID" />
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
             <column name="meal_date" type="DATETIME" />
             <column name="meal_type" type="VARCHAR(20)" />
         </createTable>
@@ -59,9 +65,7 @@
             <column name="meal_log_id" type="UUID">
                 <constraints nullable="false" />
             </column>
-            <column name="food_id" type="UUID">
-                <constraints nullable="false" />
-            </column>
+            <column name="food_id" type="UUID" />
             <column name="quantity" type="INTEGER"></column>
             <column name="quantity_unit" type="VARCHAR(20)"></column>
             <column name="calories" type="NUMERIC(6,0)">
@@ -92,7 +96,7 @@
             baseTableName="meal_item" baseColumnNames="food_id"
             referencedTableName="food" referencedColumnNames="id"
             constraintName="fk_meal_item_food_id"
-            onDelete="CASCADE"
+            onDelete="SET NULL"
         />
     </changeSet>
 

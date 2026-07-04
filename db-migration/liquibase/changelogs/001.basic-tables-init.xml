@@ -84,7 +84,7 @@
         </createIndex>
 
         <!-- Codelist Items Table -->
-        <createTable tableName="codelist_items">
+        <createTable tableName="codelist_item">
             <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false" />
             </column>
