@@ -14,7 +14,7 @@ export const createFoodBodySchema = z.object({
     carbs: z.coerce.number().nonnegative().optional().describe("Carbohydrates in grams"),
     fat: z.coerce.number().nonnegative().optional().describe("Fat in grams"),
     fiber: z.coerce.number().nonnegative().optional().describe("Fiber in grams"),
-    userId: z.string().uuid().optional().describe("Owner user id"),
+    userId: z.string().optional().describe("Owner user id"),
 }).strict();
 
 export const updateFoodBodySchema = createFoodBodySchema.partial();

@@ -1,7 +1,13 @@
 import Food from "../models/Food.js";
 
 export const findById = async (id) => {
-    return Food.findByPk(id);
+    const food = Food.findByPk(id);
+
+    if (!food) {
+        throw new NotFoundError("Food not found");
+    }
+
+    return food;
 };
 
 export const findByCriteria = async (criteria = {}, options = {}) => {
