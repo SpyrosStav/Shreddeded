@@ -38,7 +38,6 @@ const swaggerOptions = {
         return aOrder - bOrder;
     },
 };
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { swaggerOptions }));
 
 app.get("/", (req, res) => {
