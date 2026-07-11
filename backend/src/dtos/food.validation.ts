@@ -5,7 +5,7 @@ extendZodWithOpenApi(z);
 
 export const foodIdParamsSchema = z.object({
     id: z.string().describe("Food id"),
-})
+});
 
 export const createFoodBodySchema = z.object({
     name: z.string().min(1).max(100).describe("Food name"),
@@ -31,3 +31,8 @@ export const foodQuerySchema = z.object({
     sortBy: z.enum(["name", "calories", "protein", "carbs", "fat", "fiber"]).optional(),
     sortDirection: z.enum(["ASC", "DESC"]).optional(),
 });
+
+export type FoodIdParams = z.infer<typeof foodIdParamsSchema>;
+export type CreateFoodBody = z.infer<typeof createFoodBodySchema>;
+export type UpdateFoodBody = z.infer<typeof updateFoodBodySchema>;
+export type FoodQuery = z.infer<typeof foodQuerySchema>;

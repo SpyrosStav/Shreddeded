@@ -3,7 +3,7 @@ import {
     createFoodBodySchema,
     updateFoodBodySchema,
     foodResponseSchema,
-} from "../dtos/foodDto.js";
+} from "../dtos/food.validation.js";
 import { registerFoodPaths } from "./paths/foodPaths.js";
 
 const registry = new OpenAPIRegistry();

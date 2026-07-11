@@ -1,3 +1,5 @@
+import type { Request, Response, NextFunction } from "express";
+
 const SLOW_THRESHOLD_MS = 200;
 
 const SENSITIVE_KEYS = [
@@ -8,7 +10,7 @@ const SENSITIVE_KEYS = [
     "creditCard"
 ];
 
-const sanitize = (obj = {}) => {
+const sanitize = (obj: Record<string, unknown> = {}) => {
 
     const clone = { ...obj };
 
@@ -21,7 +23,7 @@ const sanitize = (obj = {}) => {
     return clone;
 };
 
-export const logger = (req, res, next) => {
+export const logger = (req: Request, res: Response, next: NextFunction) => {
 
     const start = Date.now();
 

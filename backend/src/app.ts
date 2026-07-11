@@ -5,8 +5,10 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger.js";
 import sequelize from "./config/db.js";
 import routes from "./routes/routes.js";
-import { errorHandler } from "./middleware/errorHandler.js";
+import { requestId } from "./middleware/requestId.js";
+import { logger } from "./middleware/logger.js";
 import { authenticator } from "./middleware/authenticator.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +24,7 @@ app.use(logger);
 app.use(express.json());
 app.use(
     session({
-        secret: process.env.SECRET_KEY,
+        secret: process.env.SECRET_KEY as string,
         resave: false,
         saveUninitialized: false,
         cookie: { maxAge: 3600 * 1000 },
@@ -35,7 +37,7 @@ app.use(routes);
 
 // Swagger
 const swaggerOptions = {
-    operationsSorter: (a, b) => {
+    operationsSorter: (a: any, b: any) => {
         const aOrder = a.get("operation").get("x-order") || Number.MAX_SAFE_INTEGER;
         const bOrder = b.get("operation").get("x-order") || Number.MAX_SAFE_INTEGER;
 
