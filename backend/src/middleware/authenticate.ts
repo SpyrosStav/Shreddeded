@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 
-export const authenticator = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const user = req.session.user;
 
     if (!user) {
@@ -9,7 +9,7 @@ export const authenticator = (req: Request, res: Response, next: NextFunction) =
         });
     }
 
-    req.user = user;
+    req.context.user = user;
 
     next();
 };

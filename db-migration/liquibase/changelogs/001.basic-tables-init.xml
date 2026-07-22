@@ -13,13 +13,19 @@
             <column name="email" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true" />
             </column>
-            <column name="password" type="TEXT">
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="password_hash" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+            <column name="role" type="VARCHAR(20)" defaultValue="USER">
                 <constraints nullable="false" />
             </column>
             <column name="first_name" type="VARCHAR(100)" />
             <column name="last_name" type="VARCHAR(100)" />
             <column name="date_of_birth" type="DATE" />
-            <column name="sex" type="VARCHAR(6)" />
+            <column name="sex" type="VARCHAR(10)" />
             <column name="height_cm" type="NUMERIC(5,2)" />
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
@@ -28,6 +34,10 @@
         <!-- Add Index -->
         <createIndex tableName="users" indexName="idx_users_email">
             <column name="email"></column>
+        </createIndex>
+
+        <createIndex tableName="users" indexName="idx_users_username">
+            <column name="username"></column>
         </createIndex>
     </changeSet>
 

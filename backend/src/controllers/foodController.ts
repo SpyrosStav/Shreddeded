@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import * as foodService from "../services/foodService.js";
-import type { FoodIdParams, FoodQuery, CreateFoodBody, UpdateFoodBody } from "../dtos/food.validation.js";
+import type { FoodIdParams, FoodQuery, CreateFoodBody, UpdateFoodBody } from "../dtos/food/food.validation.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js"
 
@@ -21,8 +21,8 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
         const query = req.validated?.query as FoodQuery;
 
         const criteria: FoodCriteria = {
-            userId: query.userId,
-            name: query.name,
+            ...(query.userId && { userId: query.userId }),
+            ...(query.name && { name: query.name }),
         };
 
         const options: QueryOptions = {

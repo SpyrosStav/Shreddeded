@@ -5,7 +5,7 @@ import {
     createFoodBodySchema,
     updateFoodBodySchema,
     foodResponseSchema,
-} from "../../dtos/food.validation.js";
+} from "../../dtos/food/food.validation.js";
 
 export const registerFoodPaths = (registry: OpenAPIRegistry) => {
     registry.registerPath({

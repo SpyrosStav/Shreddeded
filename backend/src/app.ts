@@ -7,7 +7,7 @@ import sequelize from "./config/db.js";
 import routes from "./routes/routes.js";
 import { requestId } from "./middleware/requestId.js";
 import { logger } from "./middleware/logger.js";
-import { authenticator } from "./middleware/authenticator.js";
+import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -19,9 +19,8 @@ app.use(cors({
 }));
 
 // Middleware
-app.use(requestId);
-app.use(logger);
 app.use(express.json());
+
 app.use(
     session({
         secret: process.env.SECRET_KEY as string,
@@ -30,7 +29,9 @@ app.use(
         cookie: { maxAge: 3600 * 1000 },
     })
 );
-app.use(authenticator);
+
+app.use(requestId);
+app.use(logger);
 
 // Routes
 app.use(routes);
@@ -49,6 +50,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { swaggerOpti
 app.get("/", (req, res) => {
     res.send("API running");
 });
+
+app.use(notFoundHandler);
 
 // Error Handler
 app.use(errorHandler);

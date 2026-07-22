@@ -1,6 +1,6 @@
 import express from "express";
 import { validate } from "../middleware/validateRequest.js";
-import { foodIdParamsSchema, createFoodBodySchema, updateFoodBodySchema, foodQuerySchema } from "../dtos/food.validation.js";
+import { foodIdParamsSchema, createFoodBodySchema, updateFoodBodySchema, foodQuerySchema } from "../dtos/food/food.validation.js";
 import { findById, findByCriteria, add, update, remove } from "../controllers/foodController.js";
 
 const router = express.Router();

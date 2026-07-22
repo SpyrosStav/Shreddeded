@@ -1,4 +1,4 @@
-import type { CreateFoodBody, UpdateFoodBody } from "../dtos/food.validation.js";
+import type { CreateFoodBody, UpdateFoodBody } from "../dtos/food/food.validation.js";
 import * as foodRepository from "../repositories/foodRepository.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js";

@@ -31,9 +31,9 @@ export const logger = (req: Request, res: Response, next: NextFunction) => {
     const method = req.method;
     const url = req.originalUrl;
     const safeBody = sanitize(req.body);
-    const userId = req.user?.id ?? null;
 
     res.on("finish", () => {
+        const userId = req.context.user?.id ?? null;
         const durationMs = Date.now() - start;
         const isSlow = durationMs > SLOW_THRESHOLD_MS;
 
@@ -45,7 +45,7 @@ export const logger = (req: Request, res: Response, next: NextFunction) => {
             durationMs,
             slow: isSlow,
             userId,
-            body: sanitize(req.body),
+            body: safeBody,
             timestamp: new Date().toISOString()
         };
 

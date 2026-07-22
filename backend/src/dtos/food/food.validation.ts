@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
+import { Role } from "../../enums/roles.js";
 
 extendZodWithOpenApi(z);
 
@@ -36,3 +37,9 @@ export type FoodIdParams = z.infer<typeof foodIdParamsSchema>;
 export type CreateFoodBody = z.infer<typeof createFoodBodySchema>;
 export type UpdateFoodBody = z.infer<typeof updateFoodBodySchema>;
 export type FoodQuery = z.infer<typeof foodQuerySchema>;
+
+export type AuthenticatedUser = {
+    id: string;
+    username: string;
+    role: Role;
+};

@@ -1,3 +1,3 @@
-import type { FoodQuery } from "../dtos/food.validation.js";
+import type { FoodQuery } from "../dtos/food/food.validation.js";
 
 export type FoodCriteria = Pick<FoodQuery, "userId" | "name">;
