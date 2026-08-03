@@ -4,28 +4,35 @@ import { Role } from "../../enums/roles.js";
 
 extendZodWithOpenApi(z);
 
-export const foodIdParamsSchema = z.object({
+export const foodParamsSchema = z.object({
     id: z.string().describe("Food id"),
 });
 
-export const createFoodBodySchema = z.object({
-    name: z.string().min(1).max(100).describe("Food name"),
-    calories: z.coerce.number().int().nonnegative().optional().describe("Calories"),
-    protein: z.coerce.number().nonnegative().optional().describe("Protein in grams"),
-    carbs: z.coerce.number().nonnegative().optional().describe("Carbohydrates in grams"),
-    fat: z.coerce.number().nonnegative().optional().describe("Fat in grams"),
-    fiber: z.coerce.number().nonnegative().optional().describe("Fiber in grams"),
-    userId: z.string().optional().describe("Owner user id"),
-}).strict();
-
-export const updateFoodBodySchema = createFoodBodySchema.partial();
-
-export const foodResponseSchema = createFoodBodySchema.extend({
-    id: z.string().describe("Food id"),
+export const foodSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    calories: z.number().int().nullable(),
+    protein: z.number().nullable(),
+    carbs: z.number().nullable(),
+    fat: z.number().nullable(),
+    fiber: z.number().nullable(),
+    userId: z.string().nullable(),
 });
+
+export const foodCreateSchema = foodSchema.omit({ id: true })
+    .partial({
+        calories: true,
+        protein: true,
+        carbs: true,
+        fat: true,
+        fiber: true,
+        userId: true,
+    });
+
+export const foodUpdateSchema = foodCreateSchema.partial();
 
 export const foodQuerySchema = z.object({
-    userId: z.string().uuid().optional().describe("Filter by user id"),
+    userId: z.uuid().optional().describe("Filter by user id"),
     name: z.string().optional().describe("Filter by food name"),
     limit: z.coerce.number().int().positive().max(100).optional().describe("Maximum results"),
     offset: z.coerce.number().int().nonnegative().optional().describe("Results to skip"),
@@ -33,10 +40,11 @@ export const foodQuerySchema = z.object({
     sortDirection: z.enum(["ASC", "DESC"]).optional(),
 });
 
-export type FoodIdParams = z.infer<typeof foodIdParamsSchema>;
-export type CreateFoodBody = z.infer<typeof createFoodBodySchema>;
-export type UpdateFoodBody = z.infer<typeof updateFoodBodySchema>;
+export type FoodParams = z.infer<typeof foodParamsSchema>;
+export type FoodCreate = z.infer<typeof foodCreateSchema>;
+export type FoodUpdate = z.infer<typeof foodUpdateSchema>;
 export type FoodQuery = z.infer<typeof foodQuerySchema>;
+export type FoodResponse = z.infer<typeof foodSchema>;
 
 export type AuthenticatedUser = {
     id: string;

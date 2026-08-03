@@ -2,7 +2,7 @@ import Food from "../models/Food.js";
 import { NotFoundError } from "../errors/NotFoundError.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
-import type { CreateFoodBody, UpdateFoodBody } from "../dtos/food/food.validation.js";
+import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
 
 export const findById = async (id: string) => {
     const food = await Food.findByPk(id);
@@ -25,11 +25,11 @@ export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptio
 
 export const exists = async (id: string) => !!await Food.findByPk(id, { attributes: ['id'] });
 
-export const create = async (foodData: CreateFoodBody) => {
+export const create = async (foodData: FoodCreate) => {
     return await Food.create(foodData);
 };
 
-export const update = async (id: string, data: UpdateFoodBody) => {
+export const update = async (id: string, data: FoodUpdate) => {
     const food = await findById(id);
     return food.update(data);
 };

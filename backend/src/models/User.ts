@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import type { DecimalDataType, InferAttributes, InferCreationAttributes } from "sequelize";
+import type { DecimalDataType, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import sequelize from "../config/db.js";
 import { Role } from "../enums/roles.js";
 
@@ -8,7 +8,7 @@ class User extends Model<
     InferAttributes<User>,
     InferCreationAttributes<User>
 > {
-    declare id: string;
+    declare id: CreationOptional<string>;
     declare email: string;
     declare username: string;
     declare passwordHash: string;
@@ -19,6 +19,9 @@ class User extends Model<
     declare dateOfBirth: Date | null;
     declare sex: string | null;
     declare heightCM: DecimalDataType | null;
+
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
 }
 
 User.init(
@@ -68,6 +71,14 @@ User.init(
             type: DataTypes.DECIMAL(5, 2),
             allowNull: true,
             field: "height_cm",
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
         }
     },
     {

@@ -1,4 +1,4 @@
-import type { CreateFoodBody, UpdateFoodBody } from "../dtos/food/food.validation.js";
+import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
 import * as foodRepository from "../repositories/foodRepository.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
@@ -11,11 +11,11 @@ export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptio
     return foodRepository.findByCriteria(criteria, options);
 };
 
-export const create = async (data: CreateFoodBody) => {
+export const create = async (data: FoodCreate) => {
     return foodRepository.create(data);
 };
 
-export const update = async (id: string, data: UpdateFoodBody) => {
+export const update = async (id: string, data: FoodUpdate) => {
     return foodRepository.update(id, data);
 };
 

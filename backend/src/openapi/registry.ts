@@ -1,19 +1,20 @@
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
-import {
-    createFoodBodySchema,
-    updateFoodBodySchema,
-    foodResponseSchema,
-} from "../dtos/food/food.validation.js";
+import { foodCreateSchema, foodUpdateSchema, foodSchema } from "../dtos/food/food.validation.js";
+import { loginRequestSchema } from "../dtos/auth/login.validation.js";
 import { registerFoodPaths } from "./paths/foodPaths.js";
+import { registerAuthPaths } from "./paths/authPaths.js";
 
 const registry = new OpenAPIRegistry();
 
-registry.register("Food", foodResponseSchema);
-registry.register("CreateFoodRequest", createFoodBodySchema);
-registry.register("UpdateFoodRequest", updateFoodBodySchema);
+registry.register("Login", loginRequestSchema)
+registerAuthPaths(registry);
 
+registry.register("Food", foodSchema);
+registry.register("CreateFoodRequest", foodCreateSchema);
+registry.register("UpdateFoodRequest", foodUpdateSchema);
 registerFoodPaths(registry);
 
+// API Document Generation
 export const generateOpenApiDocument = () => {
     const generator = new OpenApiGeneratorV3(registry.definitions);
 

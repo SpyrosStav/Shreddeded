@@ -1,11 +1,5 @@
 import type { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
-import {
-    foodIdParamsSchema,
-    foodQuerySchema,
-    createFoodBodySchema,
-    updateFoodBodySchema,
-    foodResponseSchema,
-} from "../../dtos/food/food.validation.js";
+import { foodParamsSchema, foodQuerySchema, foodCreateSchema, foodUpdateSchema, foodSchema } from "../../dtos/food/food.validation.js";
 
 export const registerFoodPaths = (registry: OpenAPIRegistry) => {
     registry.registerPath({
@@ -13,16 +7,16 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
         path: "/foods/{id}",
         "x-order": 1,
         tags: ["Foods"],
-        summary: "Get food by id",
+        summary: "Find food by id",
         request: {
-            params: foodIdParamsSchema,
+            params: foodParamsSchema,
         },
         responses: {
             200: {
                 description: "Food found",
                 content: {
                     "application/json": {
-                        schema: foodResponseSchema,
+                        schema: foodSchema,
                     },
                 },
             },
@@ -37,7 +31,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
         path: "/foods",
         "x-order": 2,
         tags: ["Foods"],
-        summary: "Get foods",
+        summary: "Find foods by criteria",
         request: {
             query: foodQuerySchema,
         },
@@ -46,7 +40,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
                 description: "List of foods",
                 content: {
                     "application/json": {
-                        schema: foodResponseSchema.array(),
+                        schema: foodSchema.array(),
                     },
                 },
             },
@@ -63,7 +57,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
             body: {
                 content: {
                     "application/json": {
-                        schema: createFoodBodySchema,
+                        schema: foodCreateSchema,
                     },
                 },
             },
@@ -73,7 +67,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
                 description: "Created",
                 content: {
                     "application/json": {
-                        schema: foodResponseSchema,
+                        schema: foodSchema,
                     },
                 },
             },
@@ -87,11 +81,11 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
         tags: ["Foods"],
         summary: "Update food",
         request: {
-            params: foodIdParamsSchema,
+            params: foodParamsSchema,
             body: {
                 content: {
                     "application/json": {
-                        schema: updateFoodBodySchema,
+                        schema: foodUpdateSchema,
                     },
                 },
             },
@@ -101,7 +95,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
                 description: "Updated",
                 content: {
                     "application/json": {
-                        schema: foodResponseSchema,
+                        schema: foodSchema,
                     },
                 },
             },
@@ -118,7 +112,7 @@ export const registerFoodPaths = (registry: OpenAPIRegistry) => {
         tags: ["Foods"],
         summary: "Delete food",
         request: {
-            params: foodIdParamsSchema,
+            params: foodParamsSchema,
         },
         responses: {
             204: {

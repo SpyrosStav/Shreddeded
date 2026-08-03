@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import * as foodService from "../services/foodService.js";
-import type { FoodIdParams, FoodQuery, CreateFoodBody, UpdateFoodBody } from "../dtos/food/food.validation.js";
+import type { FoodParams, FoodQuery, FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js"
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodIdParams;
+        const params = req.validated?.params as FoodParams;
 
         const food = await foodService.findById(params.id);
 
@@ -43,7 +43,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
 
 export const add = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const body = req.validated?.body as CreateFoodBody;
+        const body = req.validated?.body as FoodCreate;
 
         const food = await foodService.create(body);
 
@@ -55,8 +55,8 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodIdParams;
-        const body = req.validated?.body as UpdateFoodBody;
+        const params = req.validated?.params as FoodParams;
+        const body = req.validated?.body as FoodUpdate;
 
         const food = await foodService.update(params.id, body);
 
@@ -68,7 +68,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodIdParams;
+        const params = req.validated?.params as FoodParams;
 
         await foodService.remove(params.id);
 

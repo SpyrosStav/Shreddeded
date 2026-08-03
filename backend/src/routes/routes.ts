@@ -1,10 +1,12 @@
 import express from "express";
 import foodRoutes from "./foodRoutes.js";
 import loginRoutes from "./authRoutes.js"
+import userRoutes from "./userRoutes.js"
 
 const router = express.Router();
 
 router.use("/foods", foodRoutes);
-router.use("/auth", loginRoutes)
+router.use("/auth", loginRoutes);
+router.use("/users", userRoutes);
 
 export default router;
