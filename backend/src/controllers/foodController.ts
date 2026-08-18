@@ -6,11 +6,12 @@ import type { QueryOptions } from "../types/shared.types.js"
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodParams;
 
+        const params = req.validated?.params as FoodParams;
         const food = await foodService.findById(params.id);
 
         res.json(food);
+
     } catch (err) {
         next(err);
     }
@@ -18,6 +19,7 @@ export const findById = async (req: Request, res: Response, next: NextFunction) 
 
 export const findByCriteria = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const query = req.validated?.query as FoodQuery;
 
         const criteria: FoodCriteria = {
@@ -36,6 +38,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
         const foods = await foodService.findByCriteria(criteria, options);
 
         res.json(foods);
+
     } catch (err) {
         next(err);
     }
@@ -43,11 +46,12 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
 
 export const add = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const body = req.validated?.body as FoodCreate;
 
+        const body = req.validated?.body as FoodCreate;
         const food = await foodService.create(body);
 
         res.status(201).json(food);
+
     } catch (err) {
         next(err);
     }
@@ -68,11 +72,12 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodParams;
 
+        const params = req.validated?.params as FoodParams;
         await foodService.remove(params.id);
 
         res.status(204).send();
+
     } catch (err) {
         next(err);
     }

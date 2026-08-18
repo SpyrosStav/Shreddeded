@@ -1,6 +1,28 @@
 import { Op } from "sequelize";
 import User from "../models/User.js";
-import type { CreateUserData } from "../types/user.types.js";
+import type { CreateUserData, UpdateUserData, UserCriteria } from "../types/user.types.js";
+import { NotFoundError } from "../errors/NotFoundError.js";
+import type { QueryOptions } from "../types/shared.types.js";
+
+export const findById = async (id: string) => {
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+        throw new NotFoundError("User not found");
+    }
+
+    return user;
+};
+
+export const findByCriteria = async (criteria: UserCriteria, options: QueryOptions) => {
+    return await User.findAll({
+        where: criteria,
+        order: options.order || [["username", "ASC"]],
+        limit: options.limit,
+        offset: options.offset,
+    });
+};
 
 export const findByEmailOrUsername = async (emailOrUsername: string) => {
     return User.findOne({
@@ -11,10 +33,7 @@ export const findByEmailOrUsername = async (emailOrUsername: string) => {
             ]
         },
         attributes: [
-            "id",
-            "username",
-            "role",
-            "passwordHash"
+            "id", "username", "role", "passwordHash"
         ]
     });
 };
@@ -25,7 +44,7 @@ export const findByEmail = async (email: string) => {
             email,
         }
     })
-}
+};
 
 export const findByUsername = async (username: string) => {
     return User.findOne({
@@ -33,8 +52,18 @@ export const findByUsername = async (username: string) => {
             username,
         }
     })
-}
+};
 
 export const add = async (user: CreateUserData) => {
     return User.create(user)
-}
+};
+
+export const update = async (id: string, data: UpdateUserData) => {
+    const user = await findById(id);
+    return user.update(data)
+};
+
+export const remove = async (id: string) => {
+    const user = await findById(id);
+    return user.destroy();
+};

@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import type { LoginRequest } from "../dtos/auth/login.validation.js";
 import * as authService from "../services/authService.js";
 
@@ -24,3 +24,15 @@ export const login = async (req: Request, res: Response) => {
         }
     });
 };
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return next(err);
+        }
+
+        return res.status(200).json({
+            message: "Logged out successfully"
+        });
+    });
+}

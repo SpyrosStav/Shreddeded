@@ -31,4 +31,17 @@ export const registerAuthPaths = (registry: OpenAPIRegistry) => {
             },
         },
     });
+
+    registry.registerPath({
+        method: "post",
+        path: "/auth/logout",
+        "x-order": 1,
+        tags: ["Authorization"],
+        summary: "Logout user",
+        responses: {
+            200: {
+                description: "Logout successful",
+            },
+        },
+    });
 };

@@ -5,6 +5,7 @@ import type { QueryOptions } from "../types/shared.types.js";
 import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
 
 export const findById = async (id: string) => {
+
     const food = await Food.findByPk(id);
 
     if (!food) {

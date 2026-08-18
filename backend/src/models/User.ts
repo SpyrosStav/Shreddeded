@@ -1,7 +1,8 @@
 import { Model, DataTypes } from "sequelize";
-import type { DecimalDataType, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional, DateOnlyDataType } from "sequelize";
 import sequelize from "../config/db.js";
 import { Role } from "../enums/roles.js";
+import type { Sex } from "../enums/sexes.js";
 
 
 class User extends Model<
@@ -13,15 +14,18 @@ class User extends Model<
     declare username: string;
     declare passwordHash: string;
     declare role: Role;
-
     declare firstName: string | null;
     declare lastName: string | null;
-    declare dateOfBirth: Date | null;
-    declare sex: string | null;
-    declare heightCM: DecimalDataType | null;
-
+    declare dateOfBirth: string | null;
+    declare sex: Sex | null;
+    declare height: number | null;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
+
+    toPublic() {
+        const { passwordHash, ...rest } = this.toJSON();
+        return rest;
+    }
 }
 
 User.init(
@@ -67,8 +71,8 @@ User.init(
             type: DataTypes.STRING(10),
             allowNull: true,
         },
-        heightCM: {
-            type: DataTypes.DECIMAL(5, 2),
+        height: {
+            type: DataTypes.INTEGER,
             allowNull: true,
             field: "height_cm",
         },

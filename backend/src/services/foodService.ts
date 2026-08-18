@@ -21,6 +21,5 @@ export const update = async (id: string, data: FoodUpdate) => {
 
 export const remove = async (id: string) => {
     await foodRepository.remove(id);
-
     return true;
 };

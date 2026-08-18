@@ -1,20 +1,30 @@
 import bcrypt from "bcrypt";
 import { EntityAlreadyExistsError } from "../errors/EntityAlreadyExistsError.js";
 import { Role } from "../enums/roles.js";
-import type { UserCreate } from "../dtos/auth/user.validation.js";
+import type { UserCreate, UserUpdate } from "../dtos/user/user.validation.js";
 import * as userRepository from "../repositories/userRepository.js";
+import type { UserCriteria } from "../types/user.types.js";
+import type { QueryOptions } from "../types/shared.types.js";
 
-export const register = async (user: UserCreate) => {
+export const findById = async (id: string) => {
+    return await userRepository.findById(id);
+}
 
-    if (await userRepository.findByEmail(user.email)) {
+export const findByCriteria = async (criteria: UserCriteria, options: QueryOptions) => {
+    return userRepository.findByCriteria(criteria, options);
+};
+
+export const add = async (data: UserCreate) => {
+
+    if (await userRepository.findByEmail(data.email)) {
         throw new EntityAlreadyExistsError("User");
     }
 
-    if (await userRepository.findByUsername(user.username)) {
+    if (await userRepository.findByUsername(data.username)) {
         throw new EntityAlreadyExistsError("User");
     }
 
-    const { password, ...userData } = user;
+    const { password, ...userData } = data;
 
     const passwordHash = await bcrypt.hash(password, 12);
 
@@ -25,7 +35,28 @@ export const register = async (user: UserCreate) => {
     });
 }
 
+export const update = async (id: string, data: UserUpdate) => {
+    const user = await userRepository.findById(id);
 
+    if (data.email && data.email !== user.email) {
+        const existingUser = await userRepository.findByEmail(data.email);
 
+        if (existingUser) {
+            throw new EntityAlreadyExistsError("Email");
+        }
+    }
 
+    if (data.username && data.username !== user.username) {
+        const existingUser = await userRepository.findByUsername(data.username);
 
+        if (existingUser) {
+            throw new EntityAlreadyExistsError("Username");
+        }
+    }
+
+    return userRepository.update(id, data);
+}
+
+export const remove = async (id: string) => {
+    return userRepository.remove(id);
+}

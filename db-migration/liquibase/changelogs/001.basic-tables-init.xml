@@ -30,15 +30,6 @@
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
-
-        <!-- Add Index -->
-        <createIndex tableName="users" indexName="idx_users_email">
-            <column name="email"></column>
-        </createIndex>
-
-        <createIndex tableName="users" indexName="idx_users_username">
-            <column name="username"></column>
-        </createIndex>
     </changeSet>
 
     <!-- Create Weight Log Table -->
