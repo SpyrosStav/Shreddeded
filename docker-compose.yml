@@ -32,11 +32,17 @@ services:
       - "5434:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d shreddeded_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   liquibase:
     image: liquibase/liquibase:latest
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./db-migration/liquibase/changelogs:/liquibase/changelog
       - ./db-migration/liquibase/drivers:/liquibase/drivers

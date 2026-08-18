@@ -1,8 +1,26 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, type CreationOptional, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import sequelize from "../config/db.js";
 
-const Food = sequelize.define(
-    "Food",
+class Food extends Model<
+    InferAttributes<Food>,
+    InferCreationAttributes<Food>
+> {
+    declare id: CreationOptional<string>;
+    declare name: string;
+
+    declare calories: number | null;
+    declare protein: number | null;
+    declare carbs: number | null;
+    declare fat: number | null;
+    declare fiber: number | null;
+
+    declare userId: string | null;
+
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
+}
+
+Food.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -38,10 +56,19 @@ const Food = sequelize.define(
             allowNull: true,
             field: "user_id",
         },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        }
     },
     {
+        sequelize,
         tableName: "food",
-        timestamps: false,
+        underscored: true
     }
 );
 

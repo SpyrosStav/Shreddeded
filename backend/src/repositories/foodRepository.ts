@@ -24,8 +24,6 @@ export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptio
     });
 };
 
-export const exists = async (id: string) => !!await Food.findByPk(id, { attributes: ['id'] });
-
 export const create = async (foodData: FoodCreate) => {
     return await Food.create(foodData);
 };
@@ -39,3 +37,5 @@ export const remove = async (id: string) => {
     const food = await findById(id);
     await food.destroy();
 };
+
+export const exists = async (id: string) => !!await Food.findByPk(id, { attributes: ['id'] });

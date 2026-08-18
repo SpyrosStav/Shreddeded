@@ -44,11 +44,13 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-export const add = async (req: Request, res: Response, next: NextFunction) => {
+export const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         const body = req.validated?.body as FoodCreate;
-        const food = await foodService.create(body);
+        const user = req.context.user!;
+
+        const food = await foodService.create(body, user);
 
         res.status(201).json(food);
 
@@ -61,8 +63,9 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const params = req.validated?.params as FoodParams;
         const body = req.validated?.body as FoodUpdate;
+        const user = req.context.user!;
 
-        const food = await foodService.update(params.id, body);
+        const food = await foodService.update(params.id, body, user);
 
         res.json(food);
     } catch (err) {
@@ -74,7 +77,9 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     try {
 
         const params = req.validated?.params as FoodParams;
-        await foodService.remove(params.id);
+        const user = req.context.user!;
+
+        await foodService.remove(params.id, user);
 
         res.status(204).send();
 

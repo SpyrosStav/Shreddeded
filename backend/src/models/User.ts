@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import type { InferAttributes, InferCreationAttributes, CreationOptional, DateOnlyDataType } from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import sequelize from "../config/db.js";
 import { Role } from "../enums/roles.js";
 import type { Sex } from "../enums/sexes.js";
@@ -19,6 +19,7 @@ class User extends Model<
     declare dateOfBirth: string | null;
     declare sex: Sex | null;
     declare height: number | null;
+
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 

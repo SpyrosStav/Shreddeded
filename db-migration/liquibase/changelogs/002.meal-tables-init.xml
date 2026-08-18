@@ -19,6 +19,8 @@
             <column name="fat" type="NUMERIC(5,2)" />
             <column name="fiber" type="NUMERIC(5,2)" />
             <column name="user_id" type="UUID" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <!-- Add FK -->

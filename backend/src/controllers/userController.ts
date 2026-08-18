@@ -62,10 +62,11 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const params = req.validated?.params as UserParams;
         const body = req.validated?.body as UserUpdate;
+        const user = req.context.user!;
 
-        const user = await userService.update(params.id, body);
+        const updatedUser = await userService.update(params.id, body, user);
 
-        res.json(user.toPublic());
+        res.json(updatedUser.toPublic());
 
     } catch (err) {
         next(err);
@@ -75,8 +76,9 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const params = req.validated?.params as UserParams;
+        const user = req.context.user!;
 
-        await userService.remove(params.id);
+        await userService.remove(params.id, user);
 
         res.status(204).send();
 

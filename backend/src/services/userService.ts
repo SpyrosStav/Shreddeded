@@ -5,6 +5,8 @@ import type { UserCreate, UserUpdate } from "../dtos/user/user.validation.js";
 import * as userRepository from "../repositories/userRepository.js";
 import type { UserCriteria } from "../types/user.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
+import type { SessionUser } from "../types/auth.types.js";
+import { ForbiddenError } from "../errors/ForbiddenError.js";
 
 export const findById = async (id: string) => {
     return await userRepository.findById(id);
@@ -35,10 +37,10 @@ export const add = async (data: UserCreate) => {
     });
 }
 
-export const update = async (id: string, data: UserUpdate) => {
-    const user = await userRepository.findById(id);
+export const update = async (id: string, data: UserUpdate, user: SessionUser) => {
+    const existingUserById = await userRepository.findById(id);
 
-    if (data.email && data.email !== user.email) {
+    if (data.email && data.email !== existingUserById.email) {
         const existingUser = await userRepository.findByEmail(data.email);
 
         if (existingUser) {
@@ -46,7 +48,7 @@ export const update = async (id: string, data: UserUpdate) => {
         }
     }
 
-    if (data.username && data.username !== user.username) {
+    if (data.username && data.username !== existingUserById.username) {
         const existingUser = await userRepository.findByUsername(data.username);
 
         if (existingUser) {
@@ -57,6 +59,14 @@ export const update = async (id: string, data: UserUpdate) => {
     return userRepository.update(id, data);
 }
 
-export const remove = async (id: string) => {
+export const remove = async (id: string, user: SessionUser) => {
+    const existingUser = await userRepository.findById(id);
+
+    if (
+        existingUser.id !== user.id &&
+        user.role !== Role.ADMIN
+    ) {
+        throw new ForbiddenError();
+    }
     return userRepository.remove(id);
 }
