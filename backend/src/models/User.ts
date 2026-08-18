@@ -4,7 +4,6 @@ import sequelize from "../config/db.js";
 import { Role } from "../enums/roles.js";
 import type { Sex } from "../enums/sexes.js";
 
-
 class User extends Model<
     InferAttributes<User>,
     InferCreationAttributes<User>
@@ -27,6 +26,7 @@ class User extends Model<
         const { passwordHash, ...rest } = this.toJSON();
         return rest;
     }
+
 }
 
 User.init(

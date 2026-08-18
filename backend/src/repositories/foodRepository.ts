@@ -3,6 +3,9 @@ import { NotFoundError } from "../errors/NotFoundError.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
 import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
+import type { SessionUser } from "../types/auth.types.js";
+import { Role } from "../enums/roles.js";
+import { Op } from "sequelize";
 
 export const findById = async (id: string) => {
 
@@ -15,9 +18,19 @@ export const findById = async (id: string) => {
     return food;
 };
 
-export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptions) => {
+export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptions, user: SessionUser) => {
+    const where = {
+        ...criteria,
+        ...(user.role !== Role.ADMIN && {
+            [Op.or]: [
+                { userId: user.id },
+                { userId: null }
+            ]
+        })
+    };
+
     return await Food.findAll({
-        where: criteria,
+        where,
         order: options.order || [["name", "ASC"]],
         limit: options.limit,
         offset: options.offset,

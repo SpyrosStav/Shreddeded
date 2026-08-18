@@ -21,6 +21,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
     try {
 
         const query = req.validated?.query as FoodQuery;
+        const user = req.context.user!;
 
         const criteria: FoodCriteria = {
             ...(query.userId && { userId: query.userId }),
@@ -35,7 +36,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
                 : undefined,
         };
 
-        const foods = await foodService.findByCriteria(criteria, options);
+        const foods = await foodService.findByCriteria(criteria, options, user);
 
         res.json(foods);
 

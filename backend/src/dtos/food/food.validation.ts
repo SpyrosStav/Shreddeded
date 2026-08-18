@@ -19,14 +19,13 @@ export const foodSchema = z.object({
     userId: z.string().nullable(),
 });
 
-export const foodCreateSchema = foodSchema.omit({ id: true })
+export const foodCreateSchema = foodSchema.omit({ id: true, userId: true })
     .partial({
         calories: true,
         protein: true,
         carbs: true,
         fat: true,
-        fiber: true,
-        userId: true,
+        fiber: true
     });
 
 export const foodUpdateSchema = foodCreateSchema.partial();
@@ -45,9 +44,3 @@ export type FoodCreate = z.infer<typeof foodCreateSchema>;
 export type FoodUpdate = z.infer<typeof foodUpdateSchema>;
 export type FoodQuery = z.infer<typeof foodQuerySchema>;
 export type FoodResponse = z.infer<typeof foodSchema>;
-
-export type AuthenticatedUser = {
-    id: string;
-    username: string;
-    role: Role;
-};

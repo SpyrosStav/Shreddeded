@@ -10,14 +10,13 @@ export const findById = async (id: string) => {
     return foodRepository.findById(id);
 }
 
-export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptions) => {
-    return foodRepository.findByCriteria(criteria, options);
+export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptions, user: SessionUser) => {
+    return foodRepository.findByCriteria(criteria, options, user);
 };
 
 export const create = async (data: FoodCreate, user: SessionUser) => {
     return foodRepository.create({
-        ...data,
-        userId: user.id
+        ...data
     });
 };
 

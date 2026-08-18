@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/:id", validate({ params: foodParamsSchema }), findById);
 
 // Find by criteria
-router.get("/", validate({ query: foodQuerySchema }), findByCriteria);
+router.get("/", authenticate, validate({ query: foodQuerySchema }), findByCriteria);
 
 // Create
 router.post("/", authenticate, validate({ body: foodCreateSchema }), create);
