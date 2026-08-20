@@ -16,7 +16,8 @@ export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptio
 
 export const create = async (data: FoodCreate, user: SessionUser) => {
     return foodRepository.create({
-        ...data
+        ...data,
+        userId: user.id
     });
 };
 

@@ -3,6 +3,7 @@ import * as foodService from "../services/foodService.js";
 import type { FoodParams, FoodQuery, FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js"
+import { Role } from "../enums/roles.js";
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,7 +25,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
         const user = req.context.user!;
 
         const criteria: FoodCriteria = {
-            ...(query.userId && { userId: query.userId }),
+            ...(user.role === Role.ADMIN && query.userId ? { userId: query.userId } : {}),
             ...(query.name && { name: query.name }),
         };
 

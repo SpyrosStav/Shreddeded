@@ -56,6 +56,13 @@ export const update = async (id: string, data: UserUpdate, user: SessionUser) =>
         }
     }
 
+    if (
+        existingUserById.id !== user.id &&
+        user.role !== Role.ADMIN
+    ) {
+        throw new ForbiddenError();
+    }
+
     return userRepository.update(id, data);
 }
 

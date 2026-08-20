@@ -38,7 +38,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
 
         const users = await userService.findByCriteria(criteria, options);
 
-        res.json(users);
+        res.json(users.map(user => user.toPublic()));
 
     } catch (err) {
         next(err);

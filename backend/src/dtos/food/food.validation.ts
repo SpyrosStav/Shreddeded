@@ -11,11 +11,11 @@ export const foodParamsSchema = z.object({
 export const foodSchema = z.object({
     id: z.string(),
     name: z.string(),
-    calories: z.number().int().nullable(),
-    protein: z.number().nullable(),
-    carbs: z.number().nullable(),
-    fat: z.number().nullable(),
-    fiber: z.number().nullable(),
+    calories: z.coerce.number().int().nullable(),
+    protein: z.coerce.number().nullable(),
+    carbs: z.coerce.number().nullable(),
+    fat: z.coerce.number().nullable(),
+    fiber: z.coerce.number().nullable(),
     userId: z.string().nullable(),
 });
 

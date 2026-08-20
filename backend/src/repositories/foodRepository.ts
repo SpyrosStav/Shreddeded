@@ -19,15 +19,15 @@ export const findById = async (id: string) => {
 };
 
 export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptions, user: SessionUser) => {
-    const where = {
-        ...criteria,
-        ...(user.role !== Role.ADMIN && {
+    const where = user.role === Role.ADMIN
+        ? criteria
+        : {
+            ...criteria,
             [Op.or]: [
                 { userId: user.id },
                 { userId: null }
             ]
-        })
-    };
+        };
 
     return await Food.findAll({
         where,
@@ -37,7 +37,7 @@ export const findByCriteria = async (criteria: FoodCriteria, options: QueryOptio
     });
 };
 
-export const create = async (foodData: FoodCreate) => {
+export const create = async (foodData: FoodCreate & { userId: string }) => {
     return await Food.create(foodData);
 };
 
