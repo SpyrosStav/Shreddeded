@@ -1,7 +1,7 @@
-import { z } from "zod";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
-import { Sex } from "../../enums/sexes.js";
+import { z } from "zod";
 import { Role } from "../../enums/roles.js";
+import { Sex } from "../../enums/sexes.js";
 
 extendZodWithOpenApi(z);
 

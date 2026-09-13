@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ForeignKeyConstraintError, UniqueConstraintError, ValidationError } from "sequelize";
 import { AppError } from "../errors/AppError.js";
 

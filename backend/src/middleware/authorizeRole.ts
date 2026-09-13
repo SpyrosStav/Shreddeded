@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { Role } from "../enums/roles.js";
 
 export const authorizeRole = (...roles: Role[]) => {

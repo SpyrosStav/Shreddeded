@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export const requestId = (req: Request, res: Response, next: NextFunction) => {
 

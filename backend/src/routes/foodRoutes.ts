@@ -1,8 +1,8 @@
 import express from "express";
-import { validate } from "../middleware/validateRequest.js";
-import { foodParamsSchema, foodQuerySchema, foodCreateSchema, foodUpdateSchema } from "../dtos/food/food.validation.js";
-import { findById, findByCriteria, create, update, remove } from "../controllers/foodController.js";
+import { create, findByCriteria, findById, remove, update } from "../controllers/foodController.js";
+import { foodCreateSchema, foodParamsSchema, foodQuerySchema, foodUpdateSchema } from "../dtos/food/food.validation.js";
 import { authenticate } from "../middleware/authenticate.js";
+import { validate } from "../middleware/validateRequest.js";
 
 const router = express.Router();
 

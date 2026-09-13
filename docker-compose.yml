@@ -1,16 +1,24 @@
-version: "3.9"
-
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
       - ./backend:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - SECRET_KEY=${SECRET_KEY}
+      - FRONTEND_URL=${FRONTEND_URL}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
 
   frontend:
     build: ./frontend
@@ -25,15 +33,15 @@ services:
     container_name: shreddeded_db
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: shreddeded_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5434:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d shreddeded_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -48,10 +56,10 @@ services:
       - ./db-migration/liquibase/drivers:/liquibase/drivers
     command:
       [
-        "--url=jdbc:postgresql://db:5432/shreddeded_db",
+        "--url=jdbc:postgresql://db:5432/${POSTGRES_DB}",
         "--changeLogFile=db.changelog-master.xml",
-        "--username=user",
-        "--password=password",
+        "--username=${POSTGRES_USER}",
+        "--password=${POSTGRES_PASSWORD}",
         "--classpath=/liquibase/drivers/postgresql-42.7.10.jar",
         "update"
       ]

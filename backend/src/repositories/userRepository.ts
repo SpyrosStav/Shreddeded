@@ -1,8 +1,8 @@
 import { Op } from "sequelize";
-import User from "../models/User.js";
-import type { CreateUserData, UpdateUserData, UserCriteria } from "../types/user.types.js";
 import { NotFoundError } from "../errors/NotFoundError.js";
+import User from "../models/User.js";
 import type { QueryOptions } from "../types/shared.types.js";
+import type { CreateUserData, UpdateUserData, UserCriteria } from "../types/user.types.js";
 
 export const findById = async (id: string) => {
 

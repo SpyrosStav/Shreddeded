@@ -1,5 +1,5 @@
 import type { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
-import { userParamsSchema, userResponseSchema, createUserRequestSchema, updateUserRequestSchema, userQuerySchema } from "../../dtos/user/user.validation.js";
+import { createUserRequestSchema, updateUserRequestSchema, userParamsSchema, userQuerySchema, userResponseSchema } from "../../dtos/user/user.validation.js";
 
 export const registerUserPaths = (registry: OpenAPIRegistry) => {
     registry.registerPath({

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { validate } from "../middleware/validateRequest.js";
-import { loginRequestSchema } from "../dtos/auth/login.validation.js";
 import { login, logout } from "../controllers/authController.js";
+import { loginRequestSchema } from "../dtos/auth/login.validation.js";
 import { authenticate } from "../middleware/authenticate.js";
 import { loginLimiter } from "../middleware/loginLimiter.js";
+import { validate } from "../middleware/validateRequest.js";
 
 const router = Router();
 

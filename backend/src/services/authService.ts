@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import * as userRepository from "../repositories/userRepository.js";
 import { InvalidCredentialsError } from "../errors/InvalidCredentialsError.js";
+import * as userRepository from "../repositories/userRepository.js";
 import type { LoginResult } from "../types/auth.types.js";
 
 export const login = async (emailOrUsername: string, password: string): Promise<LoginResult> => {

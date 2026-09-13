@@ -1,12 +1,23 @@
-FROM node:20
+FROM node:24-bookworm AS build
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY . .
+RUN nmp run build
+
+# ---- Production stage ----
+FROM node:24-bookworm-slim AS production
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["node", "dist/index.js"]

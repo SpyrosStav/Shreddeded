@@ -1,11 +1,11 @@
-import Food from "../models/Food.js";
+import { Op } from "sequelize";
+import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
+import { Role } from "../enums/roles.js";
 import { NotFoundError } from "../errors/NotFoundError.js";
+import Food from "../models/Food.js";
+import type { SessionUser } from "../types/auth.types.js";
 import type { FoodCriteria } from "../types/food.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
-import type { FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
-import type { SessionUser } from "../types/auth.types.js";
-import { Role } from "../enums/roles.js";
-import { Op } from "sequelize";
 
 export const findById = async (id: string) => {
 

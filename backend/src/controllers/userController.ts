@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { UserCreate, UserParams, UserQuery, UserUpdate } from "../dtos/user/user.validation.js";
 import * as userService from "../services/userService.js";
-import type { UserCriteria } from "../types/user.types.js";
 import type { QueryOptions } from "../types/shared.types.js";
+import type { UserCriteria } from "../types/user.types.js";
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {

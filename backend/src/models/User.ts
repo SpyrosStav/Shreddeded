@@ -1,5 +1,5 @@
-import { Model, DataTypes } from "sequelize";
-import type { InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
+import type { CreationOptional, InferAttributes, InferCreationAttributes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/db.js";
 import { Role } from "../enums/roles.js";
 import type { Sex } from "../enums/sexes.js";

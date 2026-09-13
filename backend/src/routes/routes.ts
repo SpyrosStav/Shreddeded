@@ -1,7 +1,7 @@
 import express from "express";
+import loginRoutes from "./authRoutes.js";
 import foodRoutes from "./foodRoutes.js";
-import loginRoutes from "./authRoutes.js"
-import userRoutes from "./userRoutes.js"
+import userRoutes from "./userRoutes.js";
 
 const router = express.Router();
 

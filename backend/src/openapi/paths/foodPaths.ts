@@ -1,5 +1,5 @@
 import type { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
-import { foodParamsSchema, foodQuerySchema, foodCreateSchema, foodUpdateSchema, foodSchema } from "../../dtos/food/food.validation.js";
+import { foodCreateSchema, foodParamsSchema, foodQuerySchema, foodSchema, foodUpdateSchema } from "../../dtos/food/food.validation.js";
 
 export const registerFoodPaths = (registry: OpenAPIRegistry) => {
     registry.registerPath({

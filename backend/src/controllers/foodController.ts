@@ -1,9 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
-import * as foodService from "../services/foodService.js";
-import type { FoodParams, FoodQuery, FoodCreate, FoodUpdate } from "../dtos/food/food.validation.js";
-import type { FoodCriteria } from "../types/food.types.js";
-import type { QueryOptions } from "../types/shared.types.js"
+import type { NextFunction, Request, Response } from "express";
+import type { FoodCreate, FoodParams, FoodQuery, FoodUpdate } from "../dtos/food/food.validation.js";
 import { Role } from "../enums/roles.js";
+import * as foodService from "../services/foodService.js";
+import type { FoodCriteria } from "../types/food.types.js";
+import type { QueryOptions } from "../types/shared.types.js";
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {

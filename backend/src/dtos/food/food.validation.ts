@@ -1,6 +1,5 @@
-import { z } from "zod";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
-import { Role } from "../../enums/roles.js";
+import { z } from "zod";
 
 extendZodWithOpenApi(z);
 

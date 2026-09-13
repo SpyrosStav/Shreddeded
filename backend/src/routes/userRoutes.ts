@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { validate } from "../middleware/validateRequest.js";
+import { add, findByCriteria, findById, remove, update } from "../controllers/userController.js";
 import { createUserRequestSchema, updateUserRequestSchema, userParamsSchema, userQuerySchema } from "../dtos/user/user.validation.js";
-import { add, update, findById, remove, findByCriteria } from "../controllers/userController.js";
+import { Role } from "../enums/roles.js";
 import { authenticate } from "../middleware/authenticate.js";
 import { authorizeRole } from "../middleware/authorizeRole.js";
-import { Role } from "../enums/roles.js";
+import { validate } from "../middleware/validateRequest.js";
 
 const router = Router();
 
