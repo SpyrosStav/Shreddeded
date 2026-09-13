@@ -1,10 +1,10 @@
 import type { RequestHandler } from "express";
-import type { z, ZodSchema } from "zod";
+import type { z } from "zod";
 
 type ValidationSchema = {
-    body?: ZodSchema;
-    params?: ZodSchema;
-    query?: ZodSchema;
+    body?: z.ZodType;
+    params?: z.ZodType;
+    query?: z.ZodType;
 };
 
 export const validate = ({ body, params, query }: ValidationSchema): RequestHandler => {
@@ -17,19 +17,27 @@ export const validate = ({ body, params, query }: ValidationSchema): RequestHand
             query: query?.safeParse(req.query),
         };
 
+        const errors: Record<string, unknown> = {};
+        let hasErrors = false;
+
         for (const [key, parsed] of Object.entries(result)) {
+            if (!parsed) continue;
 
-            if (parsed && !parsed.success) {
-                return res.status(400).json({
-                    message: "Validation failed",
-                    errors: parsed.error.flatten(),
-                });
+            if (!parsed.success) {
+                hasErrors = true;
+                errors[key] = parsed.error!.flatten();
+                continue;
             }
 
-            if (parsed?.success) {
-                req.validated ??= {};
-                req.validated[key as keyof typeof req.validated] = parsed.data;
-            }
+            req.validated ??= {};
+            req.validated[key as keyof typeof req.validated] = parsed.data;
+        }
+
+        if (hasErrors) {
+            return res.status(400).json({
+                message: "Validation failed",
+                errors,
+            });
         }
 
         next();

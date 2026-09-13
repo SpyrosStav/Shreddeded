@@ -24,7 +24,7 @@ export const findByCriteria = async (criteria: UserCriteria, options: QueryOptio
     });
 };
 
-export const findByEmailOrUsername = async (emailOrUsername: string) => {
+export const findByEmailOrUsername = async (emailOrUsername: string): Promise<User | null> => {
     return User.findOne({
         where: {
             [Op.or]: [
@@ -38,7 +38,7 @@ export const findByEmailOrUsername = async (emailOrUsername: string) => {
     });
 };
 
-export const findByEmail = async (email: string) => {
+export const findByEmail = async (email: string): Promise<User | null> => {
     return User.findOne({
         where: {
             email,
@@ -46,7 +46,7 @@ export const findByEmail = async (email: string) => {
     })
 };
 
-export const findByUsername = async (username: string) => {
+export const findByUsername = async (username: string): Promise<User | null> => {
     return User.findOne({
         where: {
             username,
@@ -58,12 +58,10 @@ export const add = async (user: CreateUserData) => {
     return User.create(user)
 };
 
-export const update = async (id: string, data: UpdateUserData) => {
-    const user = await findById(id);
+export const update = async (user: User, data: UpdateUserData) => {
     return user.update(data)
 };
 
-export const remove = async (id: string) => {
-    const user = await findById(id);
+export const remove = async (user: User) => {
     return user.destroy();
 };

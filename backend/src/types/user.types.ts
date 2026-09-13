@@ -24,4 +24,4 @@ export type UpdateUserData = {
     height?: number;
 };
 
-export type UserCriteria = Pick<UserQuery, "userId" | "email" | "username">;
+export type UserCriteria = Pick<UserQuery, "id" | "email" | "username">;

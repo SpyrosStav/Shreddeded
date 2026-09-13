@@ -32,23 +32,23 @@ Food.init(
             allowNull: false,
         },
         calories: {
-            type: DataTypes.DECIMAL(4, 0),
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         protein: {
-            type: DataTypes.DECIMAL(5, 2),
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         carbs: {
-            type: DataTypes.DECIMAL(5, 2),
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         fat: {
-            type: DataTypes.DECIMAL(5, 2),
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         fiber: {
-            type: DataTypes.DECIMAL(5, 2),
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         userId: {

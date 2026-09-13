@@ -6,7 +6,7 @@ import type { QueryOptions } from "../types/shared.types.js";
 
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as UserParams;
+        const params = req.validated!.params as UserParams;
 
         const user = await userService.findById(params.id);
 
@@ -20,12 +20,12 @@ export const findById = async (req: Request, res: Response, next: NextFunction) 
 export const findByCriteria = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const query = req.validated?.query as UserQuery;
+        const query = req.validated!.query as UserQuery;
 
         const criteria: UserCriteria = {
-            ...(query.userId && { userId: query.userId }),
-            ...(query.username && { name: query.username }),
-            ...(query.email && { name: query.username }),
+            id: query.id,
+            username: query.username,
+            email: query.email,
         };
 
         const options: QueryOptions = {
@@ -47,7 +47,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
 
 export const add = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const body = req.validated?.body as UserCreate;
+        const body = req.validated!.body as UserCreate;
 
         const user = await userService.add(body);
 
@@ -60,8 +60,8 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as UserParams;
-        const body = req.validated?.body as UserUpdate;
+        const params = req.validated!.params as UserParams;
+        const body = req.validated!.body as UserUpdate;
         const user = req.context.user!;
 
         const updatedUser = await userService.update(params.id, body, user);
@@ -75,7 +75,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as UserParams;
+        const params = req.validated!.params as UserParams;
         const user = req.context.user!;
 
         await userService.remove(params.id, user);

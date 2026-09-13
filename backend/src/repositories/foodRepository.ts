@@ -41,14 +41,10 @@ export const create = async (foodData: FoodCreate & { userId: string }) => {
     return await Food.create(foodData);
 };
 
-export const update = async (id: string, data: FoodUpdate) => {
-    const food = await findById(id);
+export const update = async (food: Food, data: FoodUpdate) => {
     return food.update(data);
 };
 
-export const remove = async (id: string) => {
-    const food = await findById(id);
+export const remove = async (food: Food) => {
     await food.destroy();
 };
-
-export const exists = async (id: string) => !!await Food.findByPk(id, { attributes: ['id'] });

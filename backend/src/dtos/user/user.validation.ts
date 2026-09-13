@@ -29,7 +29,7 @@ export const createUserRequestSchema = z.object({
 export const updateUserRequestSchema = createUserRequestSchema.partial().omit({ password: true });
 
 export const userQuerySchema = z.object({
-    userId: z.uuid().optional().describe("Filter by user id"),
+    id: z.uuid().optional().describe("Filter by user id"),
     username: z.string().optional().describe("Filter by username"),
     email: z.string().optional().describe("Filter by email"),
     limit: z.coerce.number().int().positive().max(100).optional().describe("Maximum results"),

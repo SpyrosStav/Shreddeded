@@ -1,5 +1,4 @@
-import { Role } from "../enums/roles";
-import type { SessionUser } from "./auth.types.ts";
+import type { SessionUser } from "./auth.types.js";
 
 declare global {
     namespace Express {

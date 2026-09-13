@@ -40,6 +40,10 @@ export const add = async (data: UserCreate) => {
 export const update = async (id: string, data: UserUpdate, user: SessionUser) => {
     const existingUserById = await userRepository.findById(id);
 
+    if (existingUserById.id !== user.id && user.role !== Role.ADMIN) {
+        throw new ForbiddenError();
+    }
+
     if (data.email && data.email !== existingUserById.email) {
         const existingUser = await userRepository.findByEmail(data.email);
 
@@ -56,14 +60,7 @@ export const update = async (id: string, data: UserUpdate, user: SessionUser) =>
         }
     }
 
-    if (
-        existingUserById.id !== user.id &&
-        user.role !== Role.ADMIN
-    ) {
-        throw new ForbiddenError();
-    }
-
-    return userRepository.update(id, data);
+    return userRepository.update(existingUserById, data);
 }
 
 export const remove = async (id: string, user: SessionUser) => {
@@ -75,5 +72,5 @@ export const remove = async (id: string, user: SessionUser) => {
     ) {
         throw new ForbiddenError();
     }
-    return userRepository.remove(id);
+    return userRepository.remove(existingUser);
 }

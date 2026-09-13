@@ -5,8 +5,8 @@ import userRoutes from "./userRoutes.js"
 
 const router = express.Router();
 
-router.use("/foods", foodRoutes);
 router.use("/auth", loginRoutes);
 router.use("/users", userRoutes);
+router.use("/foods", foodRoutes);
 
 export default router;

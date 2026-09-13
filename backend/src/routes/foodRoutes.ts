@@ -7,7 +7,7 @@ import { authenticate } from "../middleware/authenticate.js";
 const router = express.Router();
 
 // Find by Id
-router.get("/:id", validate({ params: foodParamsSchema }), findById);
+router.get("/:id", authenticate, validate({ params: foodParamsSchema }), findById);
 
 // Find by criteria
 router.get("/", authenticate, validate({ query: foodQuerySchema }), findByCriteria);

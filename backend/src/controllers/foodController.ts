@@ -8,7 +8,7 @@ import { Role } from "../enums/roles.js";
 export const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const params = req.validated?.params as FoodParams;
+        const params = req.validated!.params as FoodParams;
         const food = await foodService.findById(params.id);
 
         res.json(food);
@@ -21,12 +21,12 @@ export const findById = async (req: Request, res: Response, next: NextFunction) 
 export const findByCriteria = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const query = req.validated?.query as FoodQuery;
+        const query = req.validated!.query as FoodQuery;
         const user = req.context.user!;
 
         const criteria: FoodCriteria = {
-            ...(user.role === Role.ADMIN && query.userId ? { userId: query.userId } : {}),
-            ...(query.name && { name: query.name }),
+            userId: user.role === Role.ADMIN ? query.userId : undefined,
+            name: query.name,
         };
 
         const options: QueryOptions = {
@@ -49,7 +49,7 @@ export const findByCriteria = async (req: Request, res: Response, next: NextFunc
 export const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const body = req.validated?.body as FoodCreate;
+        const body = req.validated!.body as FoodCreate;
         const user = req.context.user!;
 
         const food = await foodService.create(body, user);
@@ -63,8 +63,8 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const params = req.validated?.params as FoodParams;
-        const body = req.validated?.body as FoodUpdate;
+        const params = req.validated!.params as FoodParams;
+        const body = req.validated!.body as FoodUpdate;
         const user = req.context.user!;
 
         const food = await foodService.update(params.id, body, user);
@@ -78,7 +78,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        const params = req.validated?.params as FoodParams;
+        const params = req.validated!.params as FoodParams;
         const user = req.context.user!;
 
         await foodService.remove(params.id, user);

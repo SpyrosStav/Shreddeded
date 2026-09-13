@@ -31,7 +31,7 @@ export const update = async (id: string, data: FoodUpdate, user: SessionUser) =>
         throw new ForbiddenError();
     }
 
-    return foodRepository.update(id, data);
+    return foodRepository.update(food, data);
 };
 
 export const remove = async (id: string, user: SessionUser) => {
@@ -45,6 +45,6 @@ export const remove = async (id: string, user: SessionUser) => {
         throw new ForbiddenError();
     }
 
-    await foodRepository.remove(id);
+    await foodRepository.remove(food);
     return true;
 };

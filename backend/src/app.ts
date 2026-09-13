@@ -13,6 +13,8 @@ import { errorHandler } from "./middleware/errorHandler.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.set("trust proxy", 1);
+
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
@@ -26,7 +28,12 @@ app.use(
         secret: process.env.SECRET_KEY as string,
         resave: false,
         saveUninitialized: false,
-        cookie: { maxAge: 3600 * 1000 },
+        cookie: {
+            maxAge: 3600 * 1000,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+        },
     })
 );
 
