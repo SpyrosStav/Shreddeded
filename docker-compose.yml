@@ -27,6 +27,8 @@ services:
     volumes:
       - ./frontend:/app
     stdin_open: true
+    env_file:
+      - .env
 
   db:
     image: postgres:16
@@ -45,6 +47,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    env_file:
+      - .env
 
   liquibase:
     image: liquibase/liquibase:latest
@@ -63,6 +67,8 @@ services:
         "--classpath=/liquibase/drivers/postgresql-42.7.10.jar",
         "update"
       ]
+    env_file:
+      - .env
 
 volumes:
   db_data:

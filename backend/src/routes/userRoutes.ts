@@ -15,7 +15,7 @@ router.get("/:id", authenticate, validate({ params: userParamsSchema }), findByI
 router.get("/", authenticate, authorizeRole(Role.ADMIN), validate({ query: userQuerySchema }), findByCriteria);
 
 // Create
-router.post("/", authenticate, validate({ body: createUserRequestSchema }), add);
+router.post("/", validate({ body: createUserRequestSchema }), add);
 
 // Update
 router.put("/:id", authenticate, validate({ params: userParamsSchema, body: updateUserRequestSchema }), update);
