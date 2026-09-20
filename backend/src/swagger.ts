@@ -1,3 +1,3 @@
-import { generateOpenApiDocument } from "./openapi/registry.js";
+import { generateOpenApiDocument } from "./config/openapi/registry.js";
 
 export const swaggerSpec = generateOpenApiDocument();

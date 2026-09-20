@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="create-session-table" author="dev">
+        <createTable tableName="session">
+            <column name="sid" type="varchar">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="sess" type="json">
+                <constraints nullable="false" />
+            </column>
+            <column name="expire" type="timestamp(6)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createIndex indexName="IDX_session_expire" tableName="session">
+            <column name="expire" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

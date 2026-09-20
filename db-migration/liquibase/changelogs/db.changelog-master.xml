@@ -8,5 +8,6 @@
     <include relativeToChangelogFile="true" file="001.basic-tables-init.xml" />
     <include relativeToChangelogFile="true" file="002.meal-tables-init.xml" />
     <include relativeToChangelogFile="true" file="003.workout-tables-init.xml" />
+    <include relativeToChangelogFile="true" file="004.session-table-init.xml" />
 
 </databaseChangeLog>

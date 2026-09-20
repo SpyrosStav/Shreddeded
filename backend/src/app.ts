@@ -12,9 +12,8 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import { logger } from "./middleware/logger.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { requestId } from "./middleware/requestId.js";
-import routes from "./routes/routes.js";
+import routes from "./routes.js";
 import { swaggerSpec } from "./swagger.js";
-
 
 const app = express();
 const PORT = env.PORT || 3000;
