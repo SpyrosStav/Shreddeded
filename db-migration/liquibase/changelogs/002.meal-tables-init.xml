@@ -36,9 +36,9 @@
         </createIndex>
     </changeSet>
 
-    <!-- Create Meal Log table -->
+    <!-- Create Meal table -->
     <changeSet id="002" author="dev">
-        <createTable tableName="meal_log">
+        <createTable tableName="meal">
             <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false" />
             </column>
@@ -47,13 +47,15 @@
             </column>
             <column name="meal_date" type="DATETIME" />
             <column name="meal_type" type="VARCHAR(20)" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <!-- Add FK -->
         <addForeignKeyConstraint
-            baseTableName="meal_log" baseColumnNames="user_id"
+            baseTableName="meal" baseColumnNames="user_id"
             referencedTableName="users" referencedColumnNames="id"
-            constraintName="fk_meal_log_users"
+            constraintName="fk_meal_users"
             onDelete="CASCADE"
         />
     </changeSet>
@@ -64,7 +66,7 @@
             <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="meal_log_id" type="UUID">
+            <column name="meal_id" type="UUID">
                 <constraints nullable="false" />
             </column>
             <column name="food_id" type="UUID" />
@@ -83,13 +85,15 @@
                 <constraints nullable="false" />
             </column>
             <column name="fiber" type="NUMERIC(6,2)" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <!-- Add FK -->
         <addForeignKeyConstraint
-            baseTableName="meal_item" baseColumnNames="meal_log_id"
-            referencedTableName="meal_log" referencedColumnNames="id"
-            constraintName="fk_meal_item_meal_log"
+            baseTableName="meal_item" baseColumnNames="meal_id"
+            referencedTableName="meal" referencedColumnNames="id"
+            constraintName="fk_meal_item_meal"
             onDelete="CASCADE"
         />
 
@@ -117,6 +121,8 @@
             <column name="protein_target" type="INTEGER"></column>
             <column name="carbs_target" type="INTEGER"></column>
             <column name="fat_target" type="INTEGER"></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <addForeignKeyConstraint

@@ -14,15 +14,11 @@
             <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false" />
             </column>
-            <!-- <column name="primary_muscle_group" type="VARCHAR(50)" /> -->
-            <!-- <column name="equipment" type="VARCHAR(50)" /> -->
-            <!-- <column name="movement_pattern" type="VARCHAR(50)" /> -->
             <column name="is_custom" type="BOOLEAN" defaultValueBoolean="false">
                 <constraints nullable="false" />
             </column>
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false" />
-            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <addForeignKeyConstraint
@@ -56,9 +52,8 @@
             </column>
             <column name="duration_minutes" type="INTEGER" />
             <column name="notes" type="TEXT" />
-            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false" />
-            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <addForeignKeyConstraint
@@ -87,6 +82,8 @@
                 <constraints nullable="false" />
             </column>
             <column name="notes" type="TEXT" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <addForeignKeyConstraint
@@ -128,6 +125,8 @@
             <column name="duration_seconds" type="INTEGER" />
             <column name="distance_meters" type="NUMERIC(8,2)" />
             <column name="notes" type="TEXT" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 
         <addForeignKeyConstraint

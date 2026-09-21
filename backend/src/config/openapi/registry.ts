@@ -3,6 +3,8 @@ import { registerAuthPaths } from "../../modules/auth/authPaths.js";
 import { loginRequestSchema } from "../../modules/auth/login.validation.js";
 import { foodCreateSchema, foodSchema, foodUpdateSchema } from "../../modules/food/food.validation.js";
 import { registerFoodPaths } from "../../modules/food/foodPaths.js";
+import { mealCreateSchema, mealSchema, mealUpdateSchema } from "../../modules/meal/meal.validation.js";
+import { registerMealPaths } from "../../modules/meal/mealPaths.js";
 import { createUserRequestSchema } from "../../modules/user/user.validation.js";
 import { registerUserPaths } from "../../modules/user/userPaths.js";
 
@@ -21,6 +23,12 @@ registry.register("Food", foodSchema);
 registry.register("CreateFoodRequest", foodCreateSchema);
 registry.register("UpdateFoodRequest", foodUpdateSchema);
 registerFoodPaths(registry);
+
+// Meals
+registry.register("Meal", mealSchema);
+registry.register("CreateMealRequest", mealCreateSchema);
+registry.register("UpdateMealRequest", mealUpdateSchema);
+registerMealPaths(registry);
 
 // API Document Generation
 export const generateOpenApiDocument = () => {
